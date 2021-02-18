@@ -62,3 +62,26 @@ stages:
 
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
+
+- stage: 'Deploy'
+  displayName: 'Deploy the web application'
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-18.04'
+    environment: dev
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: 'Visual Studio Enterprise(9ea91087-b643-4ddb-80a7-df43a9273a2f)'
+              appType: 'webAppLinux'
+              appName: 'tailspin1234'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
