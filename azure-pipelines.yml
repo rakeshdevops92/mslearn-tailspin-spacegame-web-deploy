@@ -82,4 +82,4 @@ stages:
               azureSubscription: 'Visual Studio Enterprise(9ea91087-b643-4ddb-80a7-df43a9273a2f)'
               appType: 'webAppLinux'
               appName: 'tailspin1234'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              package: '$(Pipeline.Workspace)/**/*.zip'
